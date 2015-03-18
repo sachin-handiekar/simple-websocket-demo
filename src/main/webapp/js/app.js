@@ -1,8 +1,7 @@
 var webSocketURL = 'ws://' + document.location.hostname + ":" + document.location.port + document.location.pathname + 'demo';
 
-var messages = document.getElementById("messages");
+var log = document.getElementById("log");
 
-writeResponse('WebSockets URL : ' + webSocketURL);
 
 var webSocket;
 
@@ -14,7 +13,7 @@ var PING_MSG = 'PING';
 
 function openSocket() {
     // Ensures only one connection is open at a time
-    if (webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED) {
+    if (isWebsocketOpen()) {
         writeResponse("WebSocket is already opened.");
         return;
     }
@@ -22,11 +21,15 @@ function openSocket() {
     webSocket = new WebSocket(webSocketURL);
 
     webSocket.onopen = function (event) {
-        writeResponse('Websocket connection started...')
+        writeResponse('Websocket connection started... ')
 
         pingTimer = setInterval(function () {
-            writeResponse('Sending PING message to server...')
-            webSocket.send(PING_MSG);
+            if (isWebsocketOpen()) {
+                writeResponse('Sending PING message to server...')
+                webSocket.send(PING_MSG);
+            } else {
+                writeResponse('Websocket connection is closed...');
+            }
         }, pingTimerInterval);
 
     };
@@ -38,26 +41,45 @@ function openSocket() {
 
 
     webSocket.onmessage = function (event) {
-        writeResponse(event.data);
+        writeResponse('Message received from server - ' + event.data);
     };
 
 }
 
 
 function closeSocket() {
-
-    if (webSocket != null) {
+    if (isWebsocketOpen()) {
         webSocket.close();
+    } else {
+        writeResponse('Websocket connection is already closed...');
     }
-
 }
 
 
-function send(){
-    var text = document.getElementById("messageinput").value;
-    webSocket.send(text);
+function sendMessage() {
+    if (isWebsocketOpen()) {
+        var text = document.getElementById("message").value;
+
+        writeResponse('Message sent to server - ' + text)
+        webSocket.send(text);
+
+        document.getElementById("message").value = '';
+    } else {
+        writeResponse('Websocket connection is closed...');
+    }
 }
 
 function writeResponse(text) {
-    messages.innerHTML += "<br/>" + text;
+    log.innerHTML += "<br/>" + text;
+}
+
+function clearLog() {
+    log.innerHTML = '';
+}
+
+function isWebsocketOpen() {
+    if (webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED) {
+        return true;
+    }
+    return false;
 }

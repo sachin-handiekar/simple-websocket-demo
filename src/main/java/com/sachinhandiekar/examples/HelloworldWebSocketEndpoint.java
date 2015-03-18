@@ -29,9 +29,10 @@ public class HelloworldWebSocketEndpoint {
     public void onMessage(String message) {
         if (message.equals(PING)) {
             logger.fine("PING Received!!!");
+        } else {
+            logger.info("Message Received : " + message);
         }
 
-        logger.info("Message Received : " + message);
     }
 
     @OnClose

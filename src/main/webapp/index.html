@@ -12,19 +12,25 @@
 <h1>Simple Websocket Demo</h1>
 
 <div>
-    <input type="text" id="messageinput"/>
+    Message : <input type="text" id="message"/>
+    <button type="button" onclick="sendMessage();">Send</button>
+
 </div>
+<br/>
+
 <div>
-    <button type="button" onclick="openSocket();" >Open</button>
-    <button type="button" onclick="send();" >Send</button>
-    <button type="button" onclick="closeSocket();" >Close</button>
+    <button type="button" onclick="openSocket();">Open Connection</button>
+    <button type="button" onclick="closeSocket();">Close Connection</button>
+    <button type="button" onclick="clearLog();">Clear Log</button>
+
 </div>
-<!-- Server responses get written here -->
-<div id="messages"></div>
+
+<br/>
+<strong>Output Log : </strong>
+
+<div id="log"></div>
 
 </body>
 
-<!-- jQuery Libraries -->
-<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
 <script src="js/app.js"></script>
 </html>
