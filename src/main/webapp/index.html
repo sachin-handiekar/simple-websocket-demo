@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Simple Websocket Demo</title>
+
+
+</head>
+
+<body>
+
+<h1>Simple Websocket Demo</h1>
+
+<div>
+    <input type="text" id="messageinput"/>
+</div>
+<div>
+    <button type="button" onclick="openSocket();" >Open</button>
+    <button type="button" onclick="send();" >Send</button>
+    <button type="button" onclick="closeSocket();" >Close</button>
+</div>
+<!-- Server responses get written here -->
+<div id="messages"></div>
+
+</body>
+
+<!-- jQuery Libraries -->
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="js/app.js"></script>
+</html>
